@@ -4,6 +4,9 @@
 
  using namespace std;
 
+/// Оформление кода
+/// Cmake проект
+/// Реализация в cpp, прототипы в заголовках
 int Sign(int q, int w) {
     if ((q + w) % 2 == 0) {
       return 1;
@@ -13,6 +16,9 @@ int Sign(int q, int w) {
         return -1;
     }
 }
+/// вы чтобы скипнуть и выкусить из массива число, просто берете и копируете
+/// все целиком), была бы образно у вас длинна nums 10000000
+/// Вы вместого, чтобы скипнуть i элемент, копируете 10000000 - 1 
 vector<int> FiltByIndex(const vector<int>& nums, int index) {
     vector<int> filter;
     for (int y = 0; y < nums.size(); ++y) {
