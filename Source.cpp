@@ -16,9 +16,9 @@ int getDet(const vector<vector<int>>& matrix, vector<int>& skip_row_index, vecto
                 continue;
             skip_col_index.push_back(col_index);
             det +=
-                matrix[row_index][col_index] *                  // берем элемент на пересечении строки и столбца
-                pow(-1, local_col_index++) *                    // вы€вл€ем знак определител€
-                getDet(matrix, skip_row_index, skip_col_index); // считаем определитель подматрицы/матрицы
+                matrix[row_index][col_index] *                 
+                pow(-1, local_col_index++) *                  
+                getDet(matrix, skip_row_index, skip_col_index); 
             skip_col_index.pop_back();
         }
 
