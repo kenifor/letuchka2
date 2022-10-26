@@ -1,63 +1,68 @@
-#include <vector>
-#include <iostream>
-#include <math.h>
+#include "Header.h"
 
- using namespace std;
+int getDet(const vector<vector<int>>& matrix, vector<int>& skip_row_index, vector<int>& skip_col_index)
+{
+    int det = 0;
+    int matrix_size = sizeWithoutSkippedRowsAndCols(matrix, skip_row_index);
+    if (matrix_size > 2)
+    {
+        int row_index = skip_row_index.size();
+        skip_row_index.push_back(row_index);
+        int local_col_index = 0;
 
-/// –û—Ñ–æ—Ä–º–ª–µ–Ω–∏–µ –∫–æ–¥–∞
-/// Cmake –ø—Ä–æ–µ–∫—Ç
-/// –†–µ–∞–ª–∏–∑–∞—Ü–∏—è –≤ cpp, –ø—Ä–æ—Ç–æ—Ç–∏–ø—ã –≤ –∑–∞–≥–æ–ª–æ–≤–∫–∞—Ö
-int Sign(int q, int w) {
-    if ((q + w) % 2 == 0) {
-      return 1;
-    } 
-        else
-    { 
-        return -1;
+        for (int col_index = 0; col_index < matrix.size(); col_index++)
+        {
+            if (!isValidIndex(col_index, skip_col_index))
+                continue;
+            skip_col_index.push_back(col_index);
+            det +=
+                matrix[row_index][col_index] *                  // ·ÂÂÏ ˝ÎÂÏÂÌÚ Ì‡ ÔÂÂÒÂ˜ÂÌËË ÒÚÓÍË Ë ÒÚÓÎ·ˆ‡
+                pow(-1, local_col_index++) *                    // ‚˚ˇ‚ÎˇÂÏ ÁÌ‡Í ÓÔÂ‰ÂÎËÚÂÎˇ
+                getDet(matrix, skip_row_index, skip_col_index); // Ò˜ËÚ‡ÂÏ ÓÔÂ‰ÂÎËÚÂÎ¸ ÔÓ‰Ï‡ÚËˆ˚/Ï‡ÚËˆ˚
+            skip_col_index.pop_back();
+        }
+
+        skip_row_index.pop_back(); 
     }
-}
-/// –≤—ã —á—Ç–æ–±—ã —Å–∫–∏–ø–Ω—É—Ç—å –∏ –≤—ã–∫—É—Å–∏—Ç—å –∏–∑ –º–∞—Å—Å–∏–≤–∞ —á–∏—Å–ª–æ, –ø—Ä–æ—Å—Ç–æ –±–µ—Ä–µ—Ç–µ –∏ –∫–æ–ø–∏—Ä—É–µ—Ç–µ
-/// –≤—Å–µ —Ü–µ–ª–∏–∫–æ–º), –±—ã–ª–∞ –±—ã –æ–±—Ä–∞–∑–Ω–æ —É –≤–∞—Å –¥–ª–∏–Ω–Ω–∞ nums 10000000
-/// –í—ã –≤–º–µ—Å—Ç–æ–≥–æ, —á—Ç–æ–±—ã —Å–∫–∏–ø–Ω—É—Ç—å i —ç–ª–µ–º–µ–Ω—Ç, –∫–æ–ø–∏—Ä—É–µ—Ç–µ 10000000 - 1 
-vector<int> FiltByIndex(const vector<int>& nums, int index) {
-    vector<int> filter;
-    for (int y = 0; y < nums.size(); ++y) {
-      if (y != index) {
-        filter.push_back(nums[y]);
-      }
-    }
-  return filter;
-}
-vector<vector<int>> MakeMinor(const vector<vector<int>>& mat, int skip_q, int skip_w) {
-    vector<vector<int>> minor;
-    
-    for (int q = 0; q < mat.size(); ++q) {
-      if (q != skip_q) {
-        auto filter = FiltByIndex(mat[q], skip_w);
-            minor.push_back(filter);
-      }
-    }
-    return minor;
-}
-int Det(const vector<vector<int>>& mat) {
-    if (mat.size() == 1 && mat[0].size() == 1) {
-        return mat[0][0];
-    }
- int det = 0;
- for (int w = 0; w < mat[0].size(); ++w) {
-        auto minor = MakeMinor(mat, 0, w);
-            det += Sign(0, w) * mat[0][w] * Det(minor);
-}
-    return det;
-}
-int main() {   
-    int str, stl;
-        cin >> str >> stl;
-            vector<vector<int>> mat(str, vector<int>(stl));
-    for (auto& line : mat) {
-        for (auto& e : line) {
-            cin >> e;
+    else if (matrix_size == 2)
+    {
+        vector<int> M2x2;
+        for (int y = 0; y < matrix.size(); y++)
+        {
+            if (isValidIndex(y, skip_row_index))
+            {
+                for (int x = 0; x < matrix.size(); x++)
+                {
+                    if (isValidIndex(x, skip_col_index))
+                    {
+                        M2x2.push_back(matrix[y][x]);
+                        if (M2x2.size() == 4)
+                        {
+                            det = M2x2[0] * M2x2[3] - M2x2[1] * M2x2[2];
+                            return det;
+                        }
+                    }
+                }
+            }
         }
     }
-cout << Det(mat) << '\n';
+    return det;
+}
+
+int sizeWithoutSkippedRowsAndCols(const vector<vector<int>>& matrix, const vector<int>& skip_row_index)
+{
+    if (skip_row_index.empty())
+        return matrix.size();
+    return matrix.size() - skip_row_index.size();
+}
+
+bool isValidIndex(int index, const vector<int>& skip_indexes)
+{
+    for (auto skip_index : skip_indexes)
+    {
+        if (index == skip_index)
+            return false;
+    }
+
+    return true;
 }
