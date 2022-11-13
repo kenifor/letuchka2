@@ -8,7 +8,6 @@ TEST(MatrixDet, calculate_det_of_matrix5x5) {
         {3, 2, 8, 2, 5},
         {3, 4, 3, 9, 5}
     };
-
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
@@ -23,7 +22,6 @@ TEST(MatrixDet, calculate_det_of_matrix_4x4) {
         {0, 0, 1, 0},
         {0, 0, 0, 1}
     };
-  
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
@@ -37,7 +35,6 @@ TEST(MatrixDet, calculate_det_of_matrix_3x3) {
         {6, 2, 4},
         {3, 1, 2}
     };
-    
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
@@ -51,7 +48,6 @@ TEST(MatrixDet, calculate_det_of_matrix_2x2) {
         {4, 2,}
 
     };
-   
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
@@ -64,7 +60,6 @@ TEST(MatrixDet, calculate_det_of_matrix_1x1) {
         {5}
 
     };
-    
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
@@ -76,7 +71,6 @@ TEST(MatrixDet, calculate_det_of_emptyMatrix) {
     std::vector<std::vector<int>> matrix1{
         {}
     };
-   
     std::vector<int> buff_1;
     std::vector<int> buff_2;
     int calc_Det = getDet(matrix1, buff_1, buff_2);
