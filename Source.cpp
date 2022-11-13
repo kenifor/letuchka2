@@ -4,6 +4,12 @@ int getDet(const vector<vector<int>>& matrix, vector<int>& skip_row_index, vecto
 {
     int det = 0;
     int matrix_size = sizeWithoutSkippedRowsAndCols(matrix, skip_row_index);
+    
+    if (matrix_size == 1)
+    {
+        return matrix[0][0];
+    }
+    
     if (matrix_size > 2)
     {
         int row_index = skip_row_index.size();
